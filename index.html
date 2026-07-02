@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Builder-Portfolio — AI-first Development</title>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #12151c;
+    --surface2: #181c25;
+    --border: #232936;
+    --text: #e8eaf0;
+    --muted: #9aa3b5;
+    --accent: #4f8ef7;
+    --accent2: #34d399;
+    --radius: 14px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  header { padding: 96px 0 64px; position: relative; overflow: hidden; }
+  header::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 800px 400px at 70% -10%, rgba(79,142,247,.14), transparent 60%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .04em;
+    color: var(--accent2); border: 1px solid rgba(52,211,153,.3); background: rgba(52,211,153,.08);
+    padding: 5px 14px; border-radius: 999px; margin-bottom: 24px;
+  }
+  h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; max-width: 780px; }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 19px; color: var(--muted); max-width: 680px; margin-top: 20px; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 48px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .stat b { display: block; font-size: 30px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+  .stat span { font-size: 14px; color: var(--muted); }
+
+  /* Sections */
+  section { padding: 56px 0; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  h2 { font-size: 30px; font-weight: 750; letter-spacing: -.015em; margin-bottom: 8px; }
+  .sub { color: var(--muted); max-width: 640px; margin-bottom: 36px; }
+
+  /* Project cards */
+  .project {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; margin-bottom: 32px;
+  }
+  .project img { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--border); }
+  .project .body { padding: 28px 30px 30px; }
+  .project h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .project p { color: var(--muted); font-size: 15.5px; max-width: 820px; }
+  .project p + p { margin-top: 10px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .tag {
+    font-size: 12.5px; font-weight: 600; color: var(--text);
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 4px 12px; border-radius: 999px;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* Workflow */
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .step {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px;
+  }
+  .step .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 8px; font-weight: 700; font-size: 14px;
+    background: rgba(79,142,247,.12); color: var(--accent); margin-bottom: 12px;
+  }
+  .step h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 40px 0 56px; margin-top: 40px; }
+  footer p { color: var(--muted); font-size: 14.5px; }
+  footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="badge">AI-first Builder</div>
+    <h1>Ich mache aus Ideen <span class="hl">fertige Systeme</span> — Dashboards, Automationen, Agenten.</h1>
+    <p class="lede">Selbst aufgebaut, selbst betrieben, täglich im Einsatz: eine komplette Content-Operations-Plattform mit Frontend, Backend-Orchestrierung und KI-Agenten. Gebaut mit Claude Code, Codex &amp; Co. — schnell, pragmatisch, produktionsnah.</p>
+    <div class="stats">
+      <div class="stat"><b>20+</b><span>eigene Repositories</span></div>
+      <div class="stat"><b>200+</b><span>AI-Coding-Sessions (Claude Code &amp; Codex)</span></div>
+      <div class="stat"><b>15</b><span>automatisierte Jobs im Live-Betrieb</span></div>
+      <div class="stat"><b>44</b><span>selbstgebaute Agent-Skills</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="projekte">
+  <div class="wrap">
+    <div class="kicker">Projekte</div>
+    <h2>Ausgewählte Arbeiten</h2>
+    <p class="sub">Alles hier läuft real bei mir — keine Tutorials, keine Klone. Jedes System habe ich von der Idee bis zum Betrieb selbst gebaut.</p>
+
+    <div class="project">
+      <img src="img/content-studio.png" alt="Content Operations Dashboard — Analyse-Ansicht mit Score-Verteilung und Status-Charts" loading="lazy">
+      <div class="body">
+        <h3>Content Operations Dashboard</h3>
+        <p>Control Center für eine komplette Content-Pipeline: 200+ Assets werden automatisch per KI analysiert und gescort (Ø-Score, Plattform-Eignung, Status), geplant und ausgewertet. Dazu Galerie mit Filter/Suche, Content-Kalender, Performance-Charts und ein Pipeline-Board vom Import bis zum Posting.</p>
+        <p>16 Seiten, angebunden an eine Baserow-Datenbank mit 30+ Tabellen. UI-Flows sind mit Playwright end-to-end getestet.</p>
+        <div class="tags">
+          <span class="tag">Next.js 16</span><span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Tailwind CSS v4</span><span class="tag">Recharts</span><span class="tag">Playwright</span><span class="tag">Baserow API</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <img src="img/scheduler.png" alt="Scheduler-Ansicht des Automation Orchestrators mit 15 aktiven Jobs" loading="lazy">
+      <div class="body">
+        <h3>Automation Orchestrator</h3>
+        <p>Das Backend hinter dem Dashboard: ein FastAPI-Service mit 15 Cron-Jobs, die den kompletten Content-Betrieb automatisieren — Posting-Queue, KI-Bild- und Video-Analyse, Analytics-Sammlung, Health-Monitoring, Content-Recycling, Wochenreports und ein täglicher Daily Brief. Fehler und Reports gehen automatisch per Telegram raus.</p>
+        <p>Läuft als Docker-Container im Dauerbetrieb, mit REST-API für manuelles Triggern und Job-Historie.</p>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">APScheduler</span><span class="tag">Docker</span><span class="tag">Telegram Bot API</span><span class="tag">Vision-LLMs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="project">
+        <div class="body">
+          <h3>Autonome KI-Agenten</h3>
+          <p>Eigener Fork eines Open-Source-Agent-Frameworks, erweitert um 44 selbstgeschriebene Skills: Browser-Steuerung, macOS-Automation, Content-Operations, Media-Pipelines (ComfyUI, FaceSwap), Safety-Guards. Steuerbar per Telegram, angebunden an einen Multi-Provider-LLM-Router.</p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Agent-Frameworks</span><span class="tag">MCP</span><span class="tag">Telegram</span><span class="tag">ComfyUI</span>
+          </div>
+        </div>
+      </div>
+      <div class="project">
+        <div class="body">
+          <h3>LLM-Infrastruktur</h3>
+          <p>Selbstgebaute Router- und Proxy-Schicht, die mehrere LLM-Provider (Anthropic, NVIDIA NIM u.&nbsp;a.) hinter einer einheitlichen OpenAI-kompatiblen API bündelt — mit Fallbacks und Rate-Limit-Handling. Damit sprechen alle meine Tools und Agenten dieselbe Schnittstelle.</p>
+          <div class="tags">
+            <span class="tag">Node.js</span><span class="tag">Python</span><span class="tag">OpenAI-kompatible API</span><span class="tag">Multi-Provider-Routing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="arbeitsweise">
+  <div class="wrap">
+    <div class="kicker">Arbeitsweise</div>
+    <h2>Wie ich baue</h2>
+    <p class="sub">KI-Tools sind mein Haupthebel — nicht als Spielerei, sondern als tägliches Werkzeug, mit dem ich alleine baue, was sonst ein kleines Team braucht.</p>
+    <div class="flow">
+      <div class="step"><span class="n">1</span><h4>Idee → Prototyp am selben Tag</h4><p>Mit Claude Code und Codex steht die erste lauffähige Version in Stunden, nicht Wochen.</p></div>
+      <div class="step"><span class="n">2</span><h4>KI orchestrieren, nicht nur prompten</h4><p>Agenten, Skills und Pipelines so verdrahten, dass sie ohne mich weiterlaufen.</p></div>
+      <div class="step"><span class="n">3</span><h4>Betrieb ernst nehmen</h4><p>Monitoring, Alerts, Tests und Docker gehören dazu — ein Projekt ist erst fertig, wenn es läuft.</p></div>
+      <div class="step"><span class="n">4</span><h4>Schnell lernen</h4><p>Neues Tool, neue API, neues Framework: ausprobieren, einbauen, behalten was funktioniert.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Code-Zugang zu den Repositories gebe ich auf Anfrage gern frei (GitHub: <a href="https://github.com/Pagebabe" target="_blank" rel="noopener">@Pagebabe</a>) — die Systeme enthalten Betriebsdaten und sind daher privat.</p>
+  </div>
+</footer>
+
+</body>
+</html>
