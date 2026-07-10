@@ -4,9 +4,17 @@
 
 Öffentliche, unautorisierte Branchenstudie mit ausschließlich synthetischen Daten. Die Demo behauptet weder Zusammenarbeit noch Beauftragung oder Freigabe durch Gebr. Käufer.
 
-## Live-Pfad nach Merge
+## Freigabestatus
+
+**CONDITIONAL GO** für die Präsentation als synthetischer Proof-of-Work.
+
+Nicht freigegeben sind produktiver Einsatz, die Behauptung vollständiger Betriebsreife oder die Darstellung als offizielles Käufersystem.
+
+## Veröffentlichungsziel
 
 `https://pagebabe.github.io/portfolio/firmen-os-kaeufer-demo/`
+
+Die Dateien liegen auf `master`. Der direkte menschliche Live-Aufruf und die visuelle Geräteabnahme bleiben im Wahrheits-Audit ausdrücklich offen, bis sie praktisch bestätigt wurden.
 
 ## Umfang
 
@@ -17,7 +25,7 @@
 - objektgebundene Nachrichten
 - Referenzprozess von Anfrage bis Service
 - simulierte Quellen: Firmen OS, Inventor/Vault, ERP, Microsoft 365, Mobile und Integration Hub
-- installierbare, auf den Unterordner begrenzte PWA-Schale
+- PWA-Dateien mit auf den Unterordner begrenztem Manifest und Service Worker
 
 ## Schutzgrenzen
 
@@ -35,7 +43,7 @@
 `.github/workflows/firmen-os-submission.yml` prüft:
 
 - JavaScript-Syntax
-- sechs erforderliche PWA-Dateien
+- erforderliche PWA- und Wahrheits-Audit-Dateien
 - Manifest und Ordner-Scope
 - Service-Worker-Datenschutzmarker
 - 15 Rollen
@@ -45,14 +53,22 @@
 - mindestens 12 Übergaben
 - simulierte Fachsystemmarker
 - keine `@kaeufer.de`-Adresse
+- sichtbaren `CONDITIONAL GO`-Wahrheitsstatus
 - lokale HTTP-Auslieferung der Abgabedateien
 
 ## Offene Grenzen
 
-Die öffentliche Demo ersetzt nicht:
+Noch nicht praktisch bewiesen:
 
+- direkter Live-Aufruf der GitHub-Pages-URL
+- visuelle Abnahme auf Desktop, Tablet und Smartphone
+- tatsächliche PWA-Installation über HTTPS
+- praktischer Offline-Neulade- und Service-Worker-Test
+- vollständiger 20-Angriffs-Lauf nach dem Attack-18-Fix
+- realer Backup-/Restore- und Wiederaufbaubeweis
+- tatsächliches Käufer-Softwareinventar und API-Lizenzen
 - fachliche Abnahme durch Gebr. Käufer
-- reales Mitarbeiter- und Rechtemapping
-- echte Inventor-/Vault-, ERP- oder Microsoft-365-Connectoren
-- produktive Offline-Synchronisation
-- produktiven Backup-/Restore- und Go-Live-Nachweis
+
+## Verbindliche Aussagegrenze
+
+Die vollständige Klassifikation **BELEGT · SYNTHETISCH · ABGELEITET · OFFEN · NICHT VERWENDEN** steht in [`TRUTH_AUDIT.md`](./TRUTH_AUDIT.md).
