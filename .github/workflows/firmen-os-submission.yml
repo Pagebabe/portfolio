@@ -9,6 +9,7 @@ on:
     branches:
       - master
       - feature/firmen-os-kaeufer-submission
+      - feature/firmen-os-kaeufer-truth-audit
     paths:
       - 'firmen-os-kaeufer-demo/**'
       - '.github/workflows/firmen-os-submission.yml'
@@ -30,9 +31,10 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check firmen-os-kaeufer-demo/app.js
+          node --check firmen-os-kaeufer-demo/truth-audit.js
           node --check firmen-os-kaeufer-demo/sw.js
           node --check firmen-os-kaeufer-demo/verify.mjs
-      - name: Submission contract
+      - name: Submission truth contract
         run: node firmen-os-kaeufer-demo/verify.mjs
       - name: Static HTTPS-shape smoke test
         run: |
@@ -42,5 +44,7 @@ jobs:
           sleep 2
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/ | grep -q 'UNAUTORISIERTER PROTOTYP'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/app.js | grep -q 'const workItems'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/truth-audit.js | grep -q 'CONDITIONAL GO'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/TRUTH_AUDIT.md | grep -q 'NICHT VERWENDEN'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/manifest.webmanifest | grep -q 'standalone'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/sw.js | grep -q 'firmen-os-kaeufer-demo'
