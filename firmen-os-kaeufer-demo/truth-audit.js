@@ -20,6 +20,8 @@ renderSubmission = function renderTruthAuditedSubmission() {
       <article class="panel">
         <div class="panel-head"><h3>Zulässige Einordnung</h3></div>
         <p>Unautorisierter, synthetischer Firmen-OS-Branchenprototyp. Er zeigt ein rollenbasiertes Betriebsmodell für einen projektorientierten Zugangstechnik-, Fertigungs-, Montage- und Servicebetrieb. Er ist ein Proof-of-Work und kein produktives oder offiziell freigegebenes Käufersystem.</p>
+        <p><a href="./SUBMISSION.md" target="_blank" rel="noopener">Abgabeanleitung öffnen</a></p>
+        <p><a href="./LIVE_ACCEPTANCE.md" target="_blank" rel="noopener">Live-Abnahmecheckliste öffnen</a></p>
         <p><a href="./TRUTH_AUDIT.md" target="_blank" rel="noopener">Vollständigen Wahrheits-Audit öffnen</a></p>
       </article>
       <article class="panel">
