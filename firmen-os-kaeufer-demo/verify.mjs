@@ -1,7 +1,7 @@
 import { readFile, stat } from 'node:fs/promises';
 
 const base = new URL('./', import.meta.url);
-const required = ['index.html','styles.css','app.js','manifest.webmanifest','sw.js','icon.svg'];
+const required = ['index.html','styles.css','app.js','truth-audit.js','TRUTH_AUDIT.md','manifest.webmanifest','sw.js','icon.svg'];
 for (const file of required) {
   const info = await stat(new URL(file, base));
   if (!info.isFile() || info.size < 50) throw new Error(`Missing or empty submission file: ${file}`);
@@ -10,6 +10,8 @@ for (const file of required) {
 const html = (await readFile(new URL('index.html', base), 'utf8')).toLowerCase();
 const app = await readFile(new URL('app.js', base), 'utf8');
 const appLower = app.toLowerCase();
+const truthScript = (await readFile(new URL('truth-audit.js', base), 'utf8')).toLowerCase();
+const truthAudit = (await readFile(new URL('TRUTH_AUDIT.md', base), 'utf8')).toLowerCase();
 const sw = (await readFile(new URL('sw.js', base), 'utf8')).toLowerCase();
 const manifest = JSON.parse(await readFile(new URL('manifest.webmanifest', base), 'utf8'));
 
@@ -20,9 +22,13 @@ for (const marker of [
   'noindex,nofollow',
   'role-nav',
   'demo-rolle',
-  'betriebstag'
+  'betriebstag',
+  './truth-audit.js'
 ]) {
   if (!html.includes(marker)) throw new Error(`Submission boundary missing: ${marker}`);
+}
+if (html.indexOf('./truth-audit.js') < html.indexOf('./app.js')) {
+  throw new Error('Truth-audit override must load after the main demo script');
 }
 
 for (const role of ['management','sales','project','engineering','planning','purchasing','logistics','workshop','quality','hse','field','finance','hr','it','facility']) {
@@ -54,6 +60,32 @@ for (const marker of ['evidence','capability','handoff','object','project']) {
 }
 if (appLower.includes('@kaeufer.de')) throw new Error('Real Käufer email domain leaked into public demo');
 
+for (const marker of [
+  'conditional go',
+  'live-sichtprüfung der pages-url',
+  'echte pwa-installation',
+  '20-angriffs-lauf nach attack-18-fix',
+  'nicht 100 % betriebsfertig',
+  'keine produktiven inventor-, vault-, erp- oder microsoft-365-connectoren',
+  './truth_audit.md'
+]) {
+  if (!truthScript.includes(marker)) throw new Error(`Visible truth-audit marker missing: ${marker}`);
+}
+
+for (const marker of [
+  'belegt',
+  'synthetisch',
+  'abgeleitet',
+  'offen',
+  'nicht verwenden',
+  'conditional go',
+  'direkter menschlicher aufruf der github-pages-url',
+  'vollständiger 20-angriffs-lauf des integration hub nach dem attack-18-fix',
+  'kein produktives oder offiziell freigegebenes käufersystem'
+]) {
+  if (!truthAudit.includes(marker)) throw new Error(`Truth-audit document marker missing: ${marker}`);
+}
+
 if (manifest.display !== 'standalone') throw new Error('PWA display mode must be standalone');
 if (manifest.start_url !== './' || manifest.scope !== './') throw new Error('PWA must remain scoped to the submission folder');
 if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) throw new Error('PWA icon missing');
@@ -62,4 +94,4 @@ for (const marker of ['firmen-os-kaeufer-demo','cache-control','no-store','priva
   if (!sw.includes(marker)) throw new Error(`Service-worker privacy marker missing: ${marker}`);
 }
 
-console.log(`Submission contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, scoped PWA and synthetic-data boundaries.`);
+console.log(`Submission truth contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, scoped PWA, synthetic-data boundaries and CONDITIONAL GO truth status.`);
