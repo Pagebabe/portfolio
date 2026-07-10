@@ -1,7 +1,7 @@
 import { readFile, stat } from 'node:fs/promises';
 
 const base = new URL('./', import.meta.url);
-const required = ['index.html','styles.css','app.js','truth-audit.js','TRUTH_AUDIT.md','manifest.webmanifest','sw.js','icon.svg'];
+const required = ['index.html','styles.css','app.js','truth-audit.js','TRUTH_AUDIT.md','SUBMISSION.md','LIVE_ACCEPTANCE.md','manifest.webmanifest','sw.js','icon.svg'];
 for (const file of required) {
   const info = await stat(new URL(file, base));
   if (!info.isFile() || info.size < 50) throw new Error(`Missing or empty submission file: ${file}`);
@@ -12,6 +12,8 @@ const app = await readFile(new URL('app.js', base), 'utf8');
 const appLower = app.toLowerCase();
 const truthScript = (await readFile(new URL('truth-audit.js', base), 'utf8')).toLowerCase();
 const truthAudit = (await readFile(new URL('TRUTH_AUDIT.md', base), 'utf8')).toLowerCase();
+const submission = (await readFile(new URL('SUBMISSION.md', base), 'utf8')).toLowerCase();
+const liveAcceptance = (await readFile(new URL('LIVE_ACCEPTANCE.md', base), 'utf8')).toLowerCase();
 const sw = (await readFile(new URL('sw.js', base), 'utf8')).toLowerCase();
 const manifest = JSON.parse(await readFile(new URL('manifest.webmanifest', base), 'utf8'));
 
@@ -67,7 +69,9 @@ for (const marker of [
   '20-angriffs-lauf nach attack-18-fix',
   'nicht 100 % betriebsfertig',
   'keine produktiven inventor-, vault-, erp- oder microsoft-365-connectoren',
-  './truth_audit.md'
+  './truth_audit.md',
+  './submission.md',
+  './live_acceptance.md'
 ]) {
   if (!truthScript.includes(marker)) throw new Error(`Visible truth-audit marker missing: ${marker}`);
 }
@@ -86,6 +90,34 @@ for (const marker of [
   if (!truthAudit.includes(marker)) throw new Error(`Truth-audit document marker missing: ${marker}`);
 }
 
+for (const marker of [
+  'zulässige einordnung',
+  'geführter rundgang',
+  'werkstatt / fertigung',
+  'engineering / konstruktion',
+  'abgabe- und beweisstand',
+  'keine produktiven connectoren',
+  'truth_audit.md',
+  'live_acceptance.md'
+]) {
+  if (!submission.includes(marker)) throw new Error(`Final submission guide marker missing: ${marker}`);
+}
+
+for (const marker of [
+  'live-aufruf',
+  'rollen- und rechteansichten',
+  'fünf-tage-simulation',
+  'wahrheitsansicht',
+  'responsive sichtprüfung',
+  'pwa-installation',
+  'offline-grundtest',
+  'supabase-integrationstest',
+  'fos_integration_test_pass',
+  'abgabefähiger proof-of-work'
+]) {
+  if (!liveAcceptance.includes(marker)) throw new Error(`Live acceptance marker missing: ${marker}`);
+}
+
 if (manifest.display !== 'standalone') throw new Error('PWA display mode must be standalone');
 if (manifest.start_url !== './' || manifest.scope !== './') throw new Error('PWA must remain scoped to the submission folder');
 if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) throw new Error('PWA icon missing');
@@ -94,4 +126,4 @@ for (const marker of ['firmen-os-kaeufer-demo','cache-control','no-store','priva
   if (!sw.includes(marker)) throw new Error(`Service-worker privacy marker missing: ${marker}`);
 }
 
-console.log(`Submission truth contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, scoped PWA, synthetic-data boundaries and CONDITIONAL GO truth status.`);
+console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, live acceptance and scoped PWA boundaries.`);
