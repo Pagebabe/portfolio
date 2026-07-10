@@ -1,0 +1,19 @@
+{
+  "name": "Firmen OS · Käufer Operations Demo",
+  "short_name": "Firmen OS Demo",
+  "description": "Unautorisierter, synthetischer Firmen-OS-Branchenprototyp für Zugangstechnik, Fertigung, Montage und Service.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071019",
+  "theme_color": "#0b1118",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
