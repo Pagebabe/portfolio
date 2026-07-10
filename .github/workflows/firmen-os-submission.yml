@@ -1,0 +1,46 @@
+name: Firmen OS Submission CI
+
+on:
+  pull_request:
+    paths:
+      - 'firmen-os-kaeufer-demo/**'
+      - '.github/workflows/firmen-os-submission.yml'
+  push:
+    branches:
+      - master
+      - feature/firmen-os-kaeufer-submission
+    paths:
+      - 'firmen-os-kaeufer-demo/**'
+      - '.github/workflows/firmen-os-submission.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-submission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: JavaScript syntax
+        run: |
+          node --check firmen-os-kaeufer-demo/app.js
+          node --check firmen-os-kaeufer-demo/sw.js
+          node --check firmen-os-kaeufer-demo/verify.mjs
+      - name: Submission contract
+        run: node firmen-os-kaeufer-demo/verify.mjs
+      - name: Static HTTPS-shape smoke test
+        run: |
+          python3 -m http.server 4173 >/tmp/fos-pages.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID' EXIT
+          sleep 2
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/ | grep -q 'UNAUTORISIERTER PROTOTYP'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/app.js | grep -q 'const workItems'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/manifest.webmanifest | grep -q 'standalone'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/sw.js | grep -q 'firmen-os-kaeufer-demo'
