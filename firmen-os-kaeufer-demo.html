@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1118">
+  <meta name="description" content="Unautorisierter, synthetischer Firmen-OS-Branchenprototyp für Zugangstechnik, Fertigung, Montage und Service.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Firmen OS · Käufer Operations Demo</title>
+  <link rel="manifest" href="./firmen-os-kaeufer-demo/manifest.webmanifest">
+  <link rel="icon" href="./firmen-os-kaeufer-demo/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./firmen-os-kaeufer-demo/styles.css">
+</head>
+<body>
+  <noscript>Diese Demo benötigt JavaScript.</noscript>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">FO</div>
+        <div><strong>Firmen OS</strong><span>Käufer Operations Demo</span></div>
+      </div>
+      <div class="prototype-badge">UNAUTORISIERTER PROTOTYP</div>
+      <nav id="role-nav" aria-label="Rollenabhängige Navigation"></nav>
+      <div class="sidebar-meta">
+        <span class="status-dot" id="connection-dot"></span>
+        <strong id="connection-label">online</strong>
+        <small>Alle Geschäftsdaten sind synthetisch.</small>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button mobile-only" id="menu-button" aria-label="Navigation öffnen">☰</button>
+        <div class="page-heading">
+          <small id="breadcrumb">Firmen OS / Meine Arbeit</small>
+          <h1 id="page-title">Meine Arbeit</h1>
+        </div>
+        <div class="top-controls">
+          <label><span>Demo-Rolle</span><select id="role-select"></select></label>
+          <label><span>Betriebstag</span><select id="day-select"></select></label>
+          <button class="install-button" id="install-button" hidden>App installieren</button>
+        </div>
+      </header>
+      <section class="safety-banner">
+        <strong>Demo-Grenze:</strong> Rollenwechsel simuliert Arbeitsräume und ist keine Anmeldung. Keine echten Käufer-, Kunden-, Personal-, CAD-, ERP-, Anlagen- oder Finanzdaten.
+      </section>
+      <section class="content" id="content" aria-live="polite"></section>
+      <footer class="footer">
+        <button id="submission-button">Abgabe- und Beweisstand</button>
+        <span>Stand 11. Juli 2026 · synthetische Fünf-Tage-Simulation</span>
+      </footer>
+    </main>
+  </div>
+  <script src="./firmen-os-kaeufer-demo/app.js" defer></script>
+  <script src="./firmen-os-kaeufer-demo/truth-audit.js" defer></script>
+</body>
+</html>
