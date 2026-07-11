@@ -15,6 +15,7 @@ const truthAudit = (await readFile(new URL('TRUTH_AUDIT.md', base), 'utf8')).toL
 const submission = (await readFile(new URL('SUBMISSION.md', base), 'utf8')).toLowerCase();
 const liveAcceptance = (await readFile(new URL('LIVE_ACCEPTANCE.md', base), 'utf8')).toLowerCase();
 const sw = (await readFile(new URL('sw.js', base), 'utf8')).toLowerCase();
+const deployWorkflow = (await readFile(new URL('../.github/workflows/pages-deploy.yml', base), 'utf8')).toLowerCase();
 const manifest = JSON.parse(await readFile(new URL('manifest.webmanifest', base), 'utf8'));
 
 for (const marker of [
@@ -122,8 +123,32 @@ if (manifest.display !== 'standalone') throw new Error('PWA display mode must be
 if (manifest.start_url !== './' || manifest.scope !== './') throw new Error('PWA must remain scoped to the submission folder');
 if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) throw new Error('PWA icon missing');
 
-for (const marker of ['firmen-os-kaeufer-demo','cache-control','no-store','private','app_shell']) {
-  if (!sw.includes(marker)) throw new Error(`Service-worker privacy marker missing: ${marker}`);
+for (const marker of [
+  'firmen-os-kaeufer-demo',
+  'cache-control',
+  'no-store',
+  'private',
+  'app_shell',
+  "'./truth-audit.js'",
+  "'./truth_audit.md'",
+  "'./submission.md'",
+  "'./live_acceptance.md'",
+  "request.mode==='navigate'",
+  'offline resource unavailable'
+]) {
+  if (!sw.includes(marker)) throw new Error(`Service-worker privacy or truth marker missing: ${marker}`);
 }
 
-console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, live acceptance and scoped PWA boundaries.`);
+for (const marker of [
+  'pages: write',
+  'id-token: write',
+  'actions/configure-pages@v5',
+  'actions/upload-pages-artifact@v3',
+  'actions/deploy-pages@v4',
+  'environment:',
+  'github-pages'
+]) {
+  if (!deployWorkflow.includes(marker)) throw new Error(`Pages deployment marker missing: ${marker}`);
+}
+
+console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, explicit Pages deployment and scoped PWA boundaries.`);
