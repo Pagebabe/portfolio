@@ -10,6 +10,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  statuses: write
 
 concurrency:
   group: pages
@@ -21,6 +22,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,3 +36,77 @@ jobs:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Probe deployed Käufer demo
+        id: probe
+        continue-on-error: true
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          ROOT="${PAGE_URL%/}"
+          TARGET="$ROOT/firmen-os-kaeufer-demo/"
+          echo "Checking $TARGET"
+          success=0
+          for attempt in $(seq 1 18); do
+            if curl --fail --silent --show-error --location \
+              --connect-timeout 10 --max-time 30 \
+              "$TARGET" -o /tmp/live-index.html; then
+              success=1
+              break
+            fi
+            echo "Live probe attempt $attempt failed; waiting 10 seconds"
+            sleep 10
+          done
+          test "$success" -eq 1
+          grep -q 'UNAUTORISIERTER PROTOTYP' /tmp/live-index.html
+          grep -q 'Alle Geschäftsdaten sind synthetisch' /tmp/live-index.html
+          curl --fail --silent --show-error --location "$TARGET/app.js" | grep -q 'const workItems'
+          curl --fail --silent --show-error --location "$TARGET/truth-audit.js" | grep -q 'CONDITIONAL GO'
+          curl --fail --silent --show-error --location "$TARGET/manifest.webmanifest" | grep -q 'standalone'
+          curl --fail --silent --show-error --location "$TARGET/sw.js" | grep -q 'firmen-os-kaeufer-demo'
+          printf '%s\n' "$TARGET" > /tmp/live-url.txt
+
+      - name: Publish pages-live-proof commit status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROBE_OUTCOME: ${{ steps.probe.outcome }}
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          success = os.environ.get('PROBE_OUTCOME') == 'success'
+          page_url = os.environ.get('PAGE_URL', '').rstrip('/') + '/firmen-os-kaeufer-demo/'
+          payload = {
+              'state': 'success' if success else 'failure',
+              'context': 'pages-live-proof',
+              'description': 'Käufer demo reachable with required assets' if success else 'Käufer demo live probe failed',
+              'target_url': page_url,
+          }
+          request = urllib.request.Request(
+              f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/statuses/{os.environ['GITHUB_SHA']}",
+              data=json.dumps(payload).encode('utf-8'),
+              headers={
+                  'Authorization': f"Bearer {os.environ['GH_TOKEN']}",
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'Content-Type': 'application/json',
+              },
+              method='POST',
+          )
+          with urllib.request.urlopen(request, timeout=30) as response:
+              print(response.status, response.read().decode('utf-8'))
+          PY
+
+      - name: Enforce live proof
+        if: steps.probe.outcome != 'success'
+        run: exit 1
