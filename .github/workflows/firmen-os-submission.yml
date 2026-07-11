@@ -5,6 +5,7 @@ on:
     paths:
       - 'firmen-os-kaeufer-demo/**'
       - '.github/workflows/firmen-os-submission.yml'
+      - '.github/workflows/pages-deploy.yml'
   push:
     branches:
       - master
@@ -14,6 +15,7 @@ on:
     paths:
       - 'firmen-os-kaeufer-demo/**'
       - '.github/workflows/firmen-os-submission.yml'
+      - '.github/workflows/pages-deploy.yml'
 
 permissions:
   contents: read
@@ -37,7 +39,7 @@ jobs:
           node --check firmen-os-kaeufer-demo/verify.mjs
       - name: Submission pack contract
         run: node firmen-os-kaeufer-demo/verify.mjs
-      - name: Static HTTPS-shape smoke test
+      - name: Static HTTP shape smoke test
         run: |
           python3 -m http.server 4173 >/tmp/fos-pages.log 2>&1 &
           SERVER_PID=$!
@@ -51,3 +53,23 @@ jobs:
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/LIVE_ACCEPTANCE.md | grep -q 'Supabase-Integrationstest'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/manifest.webmanifest | grep -q 'standalone'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/sw.js | grep -q 'firmen-os-kaeufer-demo'
+      - name: Browser-rendered DOM smoke test
+        run: |
+          python3 -m http.server 4174 >/tmp/fos-browser.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID' EXIT
+          sleep 2
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          "$CHROME_BIN" \
+            --headless=new \
+            --disable-gpu \
+            --no-sandbox \
+            --virtual-time-budget=5000 \
+            --dump-dom \
+            http://127.0.0.1:4174/firmen-os-kaeufer-demo/ \
+            > /tmp/fos-rendered.html
+          grep -q 'Werkstatt / Fertigung' /tmp/fos-rendered.html
+          grep -q 'DEIN ARBEITSRAUM' /tmp/fos-rendered.html
+          grep -q 'Meine Arbeit' /tmp/fos-rendered.html
+          grep -q 'Alle Geschäftsdaten sind synthetisch' /tmp/fos-rendered.html
