@@ -1,5 +1,16 @@
-const CACHE='firmen-os-kaeufer-submission-v1';
-const APP_SHELL=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg'];
+const CACHE='firmen-os-kaeufer-submission-v2';
+const APP_SHELL=[
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './truth-audit.js',
+  './TRUTH_AUDIT.md',
+  './SUBMISSION.md',
+  './LIVE_ACCEPTANCE.md',
+  './manifest.webmanifest',
+  './icon.svg'
+];
 
 self.addEventListener('install',(event)=>{
   event.waitUntil(caches.open(CACHE).then((cache)=>cache.addAll(APP_SHELL)));
@@ -24,6 +35,11 @@ self.addEventListener('fetch',(event)=>{
         caches.open(CACHE).then((cache)=>cache.put(request,copy));
       }
       return response;
-    }).catch(()=>caches.match(request).then((cached)=>cached||caches.match('./index.html')))
+    }).catch(async()=>{
+      const cached=await caches.match(request);
+      if(cached)return cached;
+      if(request.mode==='navigate')return caches.match('./index.html');
+      return new Response('Offline resource unavailable',{status:503,statusText:'Offline'});
+    })
   );
 });
