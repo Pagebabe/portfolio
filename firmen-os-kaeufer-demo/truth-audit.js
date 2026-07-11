@@ -5,7 +5,7 @@ renderSubmission = function renderTruthAuditedSubmission() {
     <div class="submission-grid">
       <div class="submission-card">
         <h3>BELEGT</h3>
-        <p class="proof">Quellcode auf master · grüner Submission-CI · 5 synthetische Tage · 15 Rollen · 30 Vorgänge · 12 Übergaben · Manifest und ordnerbegrenzter Service Worker vorhanden.</p>
+        <p class="proof">Quellcode auf master · grüner Submission-CI · gerendertes Headless-Chromium-DOM · Live-HTTP-Auslieferung und sechs Kernasset-Prüfungen grün · 5 synthetische Tage · 15 Rollen · 30 Vorgänge · 12 Übergaben.</p>
       </div>
       <div class="submission-card">
         <h3>SYNTHETISCH / SIMULIERT</h3>
@@ -13,7 +13,7 @@ renderSubmission = function renderTruthAuditedSubmission() {
       </div>
       <div class="submission-card">
         <h3>OFFEN</h3>
-        <p class="open-proof">Live-Sichtprüfung der Pages-URL · Desktop/Tablet/Smartphone · echte PWA-Installation · praktischer Offline-Test · vollständiger 20-Angriffs-Lauf nach Attack-18-Fix · Restore · reales Softwareinventar.</p>
+        <p class="open-proof">Menschliche visuelle Live-Sichtprüfung · Desktop/Tablet/Smartphone · echte PWA-Installation · praktischer Offline-Test · vollständiger 20-Angriffs-Lauf nach Attack-18-Fix · Restore · reales Softwareinventar.</p>
       </div>
     </div>
     <div class="two-col" style="margin-top:14px">

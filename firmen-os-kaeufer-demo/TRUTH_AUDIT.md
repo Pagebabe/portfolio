@@ -6,7 +6,7 @@
 
 ## Statusklassen
 
-- **BELEGT:** durch Repository, CI, Merge oder vorhandene Datei nachgewiesen
+- **BELEGT:** durch Repository, CI, Merge, Browser-Smoke oder realen HTTP-Nachweis bestätigt
 - **SYNTHETISCH:** bewusst erfundener Demonstrationsinhalt
 - **ABGELEITET:** fachliche Modellierung aus öffentlich beschriebenen Unternehmensmerkmalen
 - **OFFEN:** noch nicht praktisch oder menschlich abgenommen
@@ -15,9 +15,18 @@
 ## BELEGT
 
 - Der öffentliche Ordner `firmen-os-kaeufer-demo/` liegt auf dem Branch `master` des Repositories `Pagebabe/portfolio`.
-- Pull Request #1 wurde nach grünem Submission-CI gemergt.
+- Die Käufer-Demo wird durch einen expliziten GitHub-Pages-Workflow veröffentlicht.
+- Der Live-Nachtest für Commit `68485c8ad1030434c358405858bb822570df4791` bestätigte alle sechs Statuskontexte:
+  - `pages-index-http`
+  - `pages-index-marker`
+  - `pages-app-js`
+  - `pages-truth-js`
+  - `pages-manifest`
+  - `pages-service-worker`
+- Die Live-HTTP-Auslieferung der URL und der kritischen Kernassets ist damit maschinell bestätigt.
+- Ein Headless-Chromium-Smoke-Test rendert die dynamische Rollenoberfläche im CI und bestätigt Arbeitsraum, Rollenwahl und synthetische Kennzeichnung.
 - Die Abgabe enthält fünf Betriebstage, 15 Rollen, mindestens 30 Arbeitsvorgänge und mindestens 12 Übergaben.
-- JavaScript-Syntax, Datenschutzmarker, PWA-Manifest, Service-Worker-Scope, Rollenbegrenzung und lokale HTTP-Auslieferung wurden automatisiert geprüft.
+- JavaScript-Syntax, Datenschutzmarker, PWA-Manifest, Service-Worker-Scope, Rollenbegrenzung, lokale HTTP-Auslieferung und gerendertes DOM wurden automatisiert geprüft.
 - Die PWA-Dateien `manifest.webmanifest`, `sw.js` und `icon.svg` sind vorhanden und auf den Demo-Unterordner begrenzt.
 - Es befinden sich keine echten `@kaeufer.de`-Adressen in den öffentlichen Demodaten.
 - Die öffentliche Demo überträgt keine Daten an Supabase.
@@ -44,7 +53,7 @@ Die Ableitung beweist keine exakten internen Abläufe, Softwareversionen oder Zu
 
 Vor einer Aussage wie „vollständig abgabefertig getestet“ fehlen noch:
 
-1. direkter menschlicher Aufruf der GitHub-Pages-URL
+1. menschliche visuelle Sichtprüfung der aktualisierten Live-Version
 2. visuelle Sichtprüfung auf Desktop, Tablet und Smartphone
 3. tatsächliche PWA-Installation über HTTPS
 4. praktischer Offline-Neulade- und Service-Worker-Test
@@ -72,4 +81,4 @@ Bis zur jeweiligen Bestätigung dürfen diese Aussagen nicht verwendet werden:
 
 ## Freigabeurteil
 
-**CONDITIONAL GO:** Der Prototyp darf unter der zulässigen Einordnung präsentiert werden. Produktivitäts-, Integrations-, Offline- und Sicherheitsvollständigkeit dürfen noch nicht behauptet werden.
+**CONDITIONAL GO:** Der Prototyp darf unter der zulässigen Einordnung präsentiert werden. Die öffentliche HTTP-Auslieferung und die Kernassets sind technisch bestätigt. Produktivitäts-, Integrations-, Offline-, Geräte- und Sicherheitsvollständigkeit dürfen noch nicht behauptet werden.

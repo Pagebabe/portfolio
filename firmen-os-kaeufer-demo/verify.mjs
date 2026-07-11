@@ -65,7 +65,8 @@ if (appLower.includes('@kaeufer.de')) throw new Error('Real Käufer email domain
 
 for (const marker of [
   'conditional go',
-  'live-sichtprüfung der pages-url',
+  'live-http-auslieferung',
+  'menschliche visuelle live-sichtprüfung',
   'echte pwa-installation',
   '20-angriffs-lauf nach attack-18-fix',
   'nicht 100 % betriebsfertig',
@@ -84,7 +85,9 @@ for (const marker of [
   'offen',
   'nicht verwenden',
   'conditional go',
-  'direkter menschlicher aufruf der github-pages-url',
+  'pages-index-http',
+  'headless-chromium',
+  'menschliche visuelle sichtprüfung der aktualisierten live-version',
   'vollständiger 20-angriffs-lauf des integration hub nach dem attack-18-fix',
   'kein produktives oder offiziell freigegebenes käufersystem'
 ]) {
@@ -142,13 +145,20 @@ for (const marker of [
 for (const marker of [
   'pages: write',
   'id-token: write',
+  'statuses: write',
   'actions/configure-pages@v5',
   'actions/upload-pages-artifact@v3',
   'actions/deploy-pages@v4',
   'environment:',
-  'github-pages'
+  'github-pages',
+  'pages-index-http',
+  'pages-index-marker',
+  'pages-app-js',
+  'pages-truth-js',
+  'pages-manifest',
+  'pages-service-worker'
 ]) {
-  if (!deployWorkflow.includes(marker)) throw new Error(`Pages deployment marker missing: ${marker}`);
+  if (!deployWorkflow.includes(marker)) throw new Error(`Pages deployment or live-proof marker missing: ${marker}`);
 }
 
-console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, explicit Pages deployment and scoped PWA boundaries.`);
+console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, browser rendering, live Pages proof and scoped PWA boundaries.`);
