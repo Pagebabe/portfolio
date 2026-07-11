@@ -11,6 +11,7 @@ on:
       - feature/firmen-os-kaeufer-submission
       - feature/firmen-os-kaeufer-truth-audit
       - feature/firmen-os-kaeufer-final-submission-pack
+      - feature/firmen-os-online-truth-status
     paths:
       - 'firmen-os-kaeufer-demo/**'
       - '.github/workflows/firmen-os-submission.yml'
@@ -29,13 +30,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: JavaScript syntax
+      - name: JavaScript and JSON syntax
         run: |
           node --check firmen-os-kaeufer-demo/app.js
           node --check firmen-os-kaeufer-demo/truth-audit.js
           node --check firmen-os-kaeufer-demo/sw.js
           node --check firmen-os-kaeufer-demo/verify.mjs
-      - name: Submission pack contract
+          node -e "JSON.parse(require('fs').readFileSync('firmen-os-kaeufer-demo/online-truth-status.json','utf8'))"
+      - name: Online truth contract
         run: node firmen-os-kaeufer-demo/verify.mjs
       - name: Static HTTPS-shape smoke test
         run: |
@@ -45,8 +47,10 @@ jobs:
           sleep 2
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/ | grep -q 'UNAUTORISIERTER PROTOTYP'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/app.js | grep -q 'const workItems'
-          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/truth-audit.js | grep -q 'CONDITIONAL GO'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/truth-audit.js | grep -q 'ONLINE OFFEN'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/TRUTH_AUDIT.md | grep -q 'NICHT VERWENDEN'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/ONLINE_TRUTH.md | grep -q 'LIVE-HTTP NOCH OFFEN'
+          curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/online-truth-status.json | grep -q '"live_http_status": "open"'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/SUBMISSION.md | grep -q 'Geführter Rundgang'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/LIVE_ACCEPTANCE.md | grep -q 'Supabase-Integrationstest'
           curl --fail --silent --show-error http://127.0.0.1:4173/firmen-os-kaeufer-demo/manifest.webmanifest | grep -q 'standalone'
