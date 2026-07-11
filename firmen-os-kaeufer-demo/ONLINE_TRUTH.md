@@ -33,7 +33,7 @@ Bis ein Browser die URL tatsächlich lädt, bleiben offen:
 
 Zulässig:
 
-> Die Abgabedateien und der Wahrheitsstatus sind auf dem öffentlichen `master`-Branch veröffentlicht und durch CI geprüft. Der direkte Live-Aufruf bleibt bis zum Browserbeweis offen.
+> Die Abgabedateien und der Wahrheitsstatus sind auf dem öffentlichen `master`-Branch veröffentlicht und durch CI geprüft. Der direkte Live-HTTP-Aufruf bleibt bis zum Browserbeweis offen.
 
 Nicht zulässig:
 
