@@ -37,7 +37,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BASE_URL="https://pagebabe.github.io/portfolio/firmen-os-kaeufer-demo"
+          SITE_ROOT="https://pagebabe.github.io/portfolio"
+          BASE_URL="${SITE_ROOT}/firmen-os-kaeufer-demo"
           retry() {
             local url="$1"
             local marker="$2"
@@ -58,8 +59,9 @@ jobs:
             return 1
           }
           retry "${BASE_URL}/" "UNAUTORISIERTER PROTOTYP"
+          retry "${SITE_ROOT}/firmen-os-kaeufer-demo.html" "UNAUTORISIERTER PROTOTYP"
           retry "${BASE_URL}/app.js" "const workItems"
           retry "${BASE_URL}/truth-audit.js" "CONDITIONAL GO"
           retry "${BASE_URL}/manifest.webmanifest" '"display": "standalone"'
           retry "${BASE_URL}/TRUTH_AUDIT.md" "NICHT VERWENDEN"
-          printf 'FOS_PAGES_LIVE_PASS: public demo assets and truth boundary verified\n'
+          printf 'FOS_PAGES_LIVE_PASS: directory route, fallback entry, assets and truth boundary verified\n'
