@@ -1,7 +1,7 @@
 import { readFile, stat } from 'node:fs/promises';
 
 const base = new URL('./', import.meta.url);
-const required = ['index.html','styles.css','app.js','truth-audit.js','TRUTH_AUDIT.md','SUBMISSION.md','LIVE_ACCEPTANCE.md','manifest.webmanifest','sw.js','icon.svg'];
+const required = ['index.html','styles.css','app.js','truth-audit.js','TRUTH_AUDIT.md','ONLINE_TRUTH.md','online-truth-status.json','SUBMISSION.md','LIVE_ACCEPTANCE.md','manifest.webmanifest','sw.js','icon.svg'];
 for (const file of required) {
   const info = await stat(new URL(file, base));
   if (!info.isFile() || info.size < 50) throw new Error(`Missing or empty submission file: ${file}`);
@@ -12,6 +12,8 @@ const app = await readFile(new URL('app.js', base), 'utf8');
 const appLower = app.toLowerCase();
 const truthScript = (await readFile(new URL('truth-audit.js', base), 'utf8')).toLowerCase();
 const truthAudit = (await readFile(new URL('TRUTH_AUDIT.md', base), 'utf8')).toLowerCase();
+const onlineTruth = (await readFile(new URL('ONLINE_TRUTH.md', base), 'utf8')).toLowerCase();
+const onlineStatus = JSON.parse(await readFile(new URL('online-truth-status.json', base), 'utf8'));
 const submission = (await readFile(new URL('SUBMISSION.md', base), 'utf8')).toLowerCase();
 const liveAcceptance = (await readFile(new URL('LIVE_ACCEPTANCE.md', base), 'utf8')).toLowerCase();
 const sw = (await readFile(new URL('sw.js', base), 'utf8')).toLowerCase();
@@ -64,11 +66,12 @@ if (appLower.includes('@kaeufer.de')) throw new Error('Real Käufer email domain
 
 for (const marker of [
   'conditional go',
-  'live-sichtprüfung der pages-url',
+  'online offen',
+  'nicht live vollständig geprüft',
   'echte pwa-installation',
-  '20-angriffs-lauf nach attack-18-fix',
-  'nicht 100 % betriebsfertig',
   'keine produktiven inventor-, vault-, erp- oder microsoft-365-connectoren',
+  './online_truth.md',
+  './online-truth-status.json',
   './truth_audit.md',
   './submission.md',
   './live_acceptance.md'
@@ -89,6 +92,25 @@ for (const marker of [
 ]) {
   if (!truthAudit.includes(marker)) throw new Error(`Truth-audit document marker missing: ${marker}`);
 }
+
+for (const marker of [
+  'online-quelle belegt',
+  'live-http noch offen',
+  'fehlender dns-auflösung',
+  'weder ein pass noch ein fail',
+  'direkte live-http-aufruf bleibt bis zum browserbeweis offen',
+  'nicht 100 % betriebsfertig'
+]) {
+  if (!onlineTruth.includes(marker)) throw new Error(`Online truth marker missing: ${marker}`);
+}
+
+if (onlineStatus.schema_version !== '1.0') throw new Error('Online truth schema version missing');
+if (onlineStatus.release_status !== 'conditional_go') throw new Error('Online truth release status must remain conditional_go');
+if (onlineStatus.repository?.visibility !== 'public') throw new Error('Repository visibility truth must be public');
+if (onlineStatus.repository?.default_branch !== 'master') throw new Error('Default branch truth must be master');
+if (onlineStatus.deployment?.live_http_status !== 'open') throw new Error('Live HTTP status must remain open until browser evidence exists');
+if (onlineStatus.human_gates?.live_browser_load !== 'open') throw new Error('Live browser gate must remain open');
+if (!Array.isArray(onlineStatus.forbidden_claims) || onlineStatus.forbidden_claims.length < 7) throw new Error('Forbidden online claims incomplete');
 
 for (const marker of [
   'zulässige einordnung',
@@ -126,4 +148,4 @@ for (const marker of ['firmen-os-kaeufer-demo','cache-control','no-store','priva
   if (!sw.includes(marker)) throw new Error(`Service-worker privacy marker missing: ${marker}`);
 }
 
-console.log(`Submission pack contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, truth audit, guided submission, live acceptance and scoped PWA boundaries.`);
+console.log(`Online truth contract passed: ${workItems} work items, ${handoffs} handoffs, 15 roles, 5 days, public source verified, live HTTP kept open, scoped PWA and synthetic-data boundaries.`);
