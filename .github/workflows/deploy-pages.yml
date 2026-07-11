@@ -1,0 +1,65 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify public Käufer demo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_URL="https://pagebabe.github.io/portfolio/firmen-os-kaeufer-demo"
+          retry() {
+            local url="$1"
+            local marker="$2"
+            for attempt in {1..12}; do
+              if body="$(curl --fail --silent --show-error --location --max-time 20 \
+                -H 'Cache-Control: no-cache' \
+                "${url}?proof=${GITHUB_SHA}-${attempt}" 2>/tmp/fos-pages-curl.log)"; then
+                if grep -Fq "$marker" <<<"$body"; then
+                  printf 'Verified %s\n' "$url"
+                  return 0
+                fi
+              fi
+              printf 'Attempt %s failed for %s\n' "$attempt" "$url"
+              cat /tmp/fos-pages-curl.log || true
+              sleep 10
+            done
+            printf 'Public verification failed for %s\n' "$url" >&2
+            return 1
+          }
+          retry "${BASE_URL}/" "UNAUTORISIERTER PROTOTYP"
+          retry "${BASE_URL}/app.js" "const workItems"
+          retry "${BASE_URL}/truth-audit.js" "CONDITIONAL GO"
+          retry "${BASE_URL}/manifest.webmanifest" '"display": "standalone"'
+          retry "${BASE_URL}/TRUTH_AUDIT.md" "NICHT VERWENDEN"
+          printf 'FOS_PAGES_LIVE_PASS: public demo assets and truth boundary verified\n'
