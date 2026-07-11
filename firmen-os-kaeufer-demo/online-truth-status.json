@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-07-11",
+  "project": "Firmen OS Käufer Operations Demo",
+  "classification": "unauthorized_synthetic_proof_of_work",
+  "release_status": "conditional_go",
+  "repository": {
+    "name": "Pagebabe/portfolio",
+    "visibility": "public",
+    "default_branch": "master",
+    "submission_commit": "cc25a92483589f8e304f911ea05637cc22de34ee",
+    "source_status": "verified"
+  },
+  "deployment": {
+    "target_url": "https://pagebabe.github.io/portfolio/firmen-os-kaeufer-demo/",
+    "files_on_master": true,
+    "live_http_status": "open",
+    "reason": "Direct network check could not resolve pagebabe.github.io from the current audit environment. This is neither a pass nor a website failure."
+  },
+  "automated_evidence": {
+    "submission_ci": "passed",
+    "javascript_syntax": "passed",
+    "local_http_smoke": "passed",
+    "roles": 15,
+    "demo_days": 5,
+    "minimum_work_items": 30,
+    "minimum_handoffs": 12,
+    "pwa_manifest_present": true,
+    "scoped_service_worker_present": true,
+    "synthetic_data_boundary": "passed"
+  },
+  "human_gates": {
+    "live_browser_load": "open",
+    "desktop_visual_check": "open",
+    "tablet_visual_check": "open",
+    "smartphone_visual_check": "open",
+    "pwa_installation": "open",
+    "offline_reload": "open",
+    "integration_attack_suite_after_attack_18_fix": "open",
+    "restore_rebuild": "open"
+  },
+  "forbidden_claims": [
+    "officially developed for Gebr. Käufer",
+    "approved by Gebr. Käufer",
+    "100 percent production ready",
+    "all security tests passed",
+    "all devices tested",
+    "productive Autodesk Vault, ERP or Microsoft 365 connectors",
+    "productive offline synchronization proven"
+  ]
+}
